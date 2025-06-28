@@ -15,3 +15,13 @@ export async function sendMessage(chat: ChatMessage) {
     });
     return res;
 }
+
+export async function getChatsAfterTime(userId: string, time: Date) {
+	const chats = await Chat.find({
+		$or: [{ userId: userId }, { recepientId: userId }],
+		createdAt: { $gt: time },
+	})
+		.sort({ createdAt: 1 })
+		.limit(100);
+	return chats;
+}
