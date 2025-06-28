@@ -1,0 +1,23 @@
+{
+	"name": "open-slack-lambda-func",
+	"type": "module",
+	"scripts": {
+		"build": "esbuild --bundle --outfile=./dist/index.js --platform=node --target=node20 ./src/index.ts",
+		"zip": "zip -j lambda.zip dist/index.js",
+		"update": "aws lambda update-function-code --zip-file fileb://lambda.zip --function-name open-slack-func",
+		"deploy": "run-s build zip update",
+		"dev": "npx tsx src/index.ts"
+	},
+	"devDependencies": {
+		"esbuild": "^0.21.4",
+		"npm-run-all2": "^6.2.0",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.8.3"
+	},
+	"dependencies": {
+		"@hono/node-server": "^1.14.4",
+		"hono": "^4.8.3",
+		"mongoose": "^8.16.1",
+		"nanoid": "^5.1.5"
+	}
+}
