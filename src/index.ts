@@ -6,6 +6,7 @@ import chatRouter from './controller/chat.controller';
 import { logger } from 'hono/logger';
 import authRouter from "./controller/auth.controller";
 import userRouter from "./controller/user.controller";
+import { authorizeReq } from "./middleware/authorize.middleware";
 
 // connect to db
 const database = "mongodb+srv://test:test@cluster0.vpid4.mongodb.net/open-slack-qa?retryWrites=true&w=majority&appName=Cluster0";
@@ -24,6 +25,8 @@ app.get("/", (c) => {
 
 app.route("/auth", authRouter);
 app.route("/user", userRouter);
+
+app.use(authorizeReq);
 
 app.route("/:id/chat", chatRouter);
 
