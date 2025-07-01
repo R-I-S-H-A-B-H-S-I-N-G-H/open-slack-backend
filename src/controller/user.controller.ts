@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { createUser } from "../service/user.service";
+import { createUser, getContacts } from "../service/user.service";
 
 const userRouter = new Hono()
 export default userRouter;
