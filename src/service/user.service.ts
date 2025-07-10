@@ -7,6 +7,11 @@ export type ConnectedUser = {
 	username: string;
 };
 
+export interface UserDisplaySchema {
+	username: string;
+	shortId: string;
+}
+
 export async function createUser(username: string, password: string) {
 	const hashedPassword = await hashPassword(password);
 	return User.create({
@@ -50,4 +55,13 @@ export async function getContacts(userId: string): Promise<ConnectedUser[]> {
 		shortId: user.shortId,
 		username: user.username,
 	}));
+}
+
+export async function getUserList(username: string): Promise<UserDisplaySchema[]> {
+	const userListWithFullDetails = await User.find(
+		{ username: { $regex: username, $options: "i" } },
+		{ shortId: 1, username: 1, _id: 1 }, // <- project only these fields
+	);
+
+	return userListWithFullDetails;
 }
